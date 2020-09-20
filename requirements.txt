@@ -1,0 +1,6 @@
+Flask==1.1.2
+Flask-RESTful==0.3.8
+requests==2.24.0
+scholarly==0.5
+python-dotenv==0.14.0
+scraperapi-sdk==0.2.2
