@@ -56,6 +56,7 @@ def login():
     return jsonify(status="Login Successful"), 200
 
 
+
 @api.route('/', defaults={'path': ''})
 @api.route('/<path:path>')
 def index(path):
