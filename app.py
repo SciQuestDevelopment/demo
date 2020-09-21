@@ -4,36 +4,30 @@ from scholarly import scholarly
 import json
 # __name__ is the name of the module
 app = Flask(__name__)
-api = Api(app)
 
-class auth(Resource):
-    def get(self, author):
-        search_query = scholarly.search_author(author)
-        author = next(search_query)
-        data = {'name': author.name, 'affilication': author.affiliation, 'email': author.email,
-                'picture': author.url_picture,}
-        jsonStr = json.dumps(data)
-        # author.fill(sections=['publications'])
-        return jsonStr
-
-class pub(Resource):
-    def get(self, pub):
-        query = scholarly.search_pubs(pub)
-        pub = next(query)
-        jsonStr = json.dumps(pub.bib)
-        return jsonStr
-
-api.add_resource(auth,"/scholarly/author/<string:author>")
-api.add_resource(pub,"/scholarly/pub/<string:pub>")
+posts = [
+    {
+        'author': 'Corey Schafer',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'April 20, 2018'
+    },
+    {
+        'author': 'Jane Doe',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'April 21, 2018'
+    }
+]
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html')
+    return render_template('home.html', posts=posts)
 
 @app.route("/about")
 def about():
-    return "<h1> About Page </h1>"
+    return render_template('about.html', title='About')
 
 
 if __name__ == '__main__':
