@@ -2,7 +2,6 @@ from datetime import datetime
 
 from app import db
 
-
 class User(db.Model):
     __tablename__ = "user"
     u_id = db.Column(db.Integer, index=True, unique=True, primary_key=True, autoincrement=True)

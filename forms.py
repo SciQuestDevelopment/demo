@@ -3,27 +3,27 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
+    username = StringField('用户名',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
+    email = StringField('邮箱',
                         validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    university = StringField('University',
+    password = PasswordField('密码', validators=[DataRequired()])
+    university = StringField('学校',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    major = StringField('Major',
+    major = StringField('专业',
                              validators=[DataRequired(), Length(min=2, max=20)])
-    interest1 = StringField('Interest 1',
+    interest1 = StringField('兴趣 1',
                         validators=[DataRequired(), Length(min=2, max=20)])
-    interest2 = StringField('Interest 1',
+    interest2 = StringField('兴趣 2',
                         validators=[Length(min=2, max=20)])
-    confirm_password = PasswordField('Confirm Password',
+    confirm_password = PasswordField('确认密码',
                                      validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    submit = SubmitField('注册')
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email',
+    email = StringField('邮箱',
                         validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    password = PasswordField('密码', validators=[DataRequired()])
+    remember = BooleanField('记住我')
+    submit = SubmitField('登陆')
