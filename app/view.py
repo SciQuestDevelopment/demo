@@ -57,8 +57,8 @@ def login():
 
 
 
-@api.route('/', defaults={'path': ''})
-@api.route('/<path:path>')
-def index(path):
-    return "Welcome"
+# @api.route('/', defaults={'path': ''})
+# @api.route('/<path:path>')
+# def index(path):
+#     return "Welcome"
     # return render_template("index.html")
