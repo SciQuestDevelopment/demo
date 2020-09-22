@@ -1,4 +1,6 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from app.models import User
@@ -24,12 +26,12 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('That username is taken. Please choose a different one.')
+            raise ValidationError('用户名已存在')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError('That email is taken. Please choose a different one.')
+            raise ValidationError('邮箱地址已存在，请更换邮箱')
 
 class LoginForm(FlaskForm):
     email = StringField('邮箱',
@@ -37,3 +39,31 @@ class LoginForm(FlaskForm):
     password = PasswordField('密码', validators=[DataRequired()])
     remember = BooleanField('记住我')
     submit = SubmitField('登陆')
+
+class UpdateAccountForm(FlaskForm):
+    username = StringField('用户名',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('邮箱',
+                        validators=[DataRequired(), Email()])
+    picture = FileField('更新头像', validators=[FileAllowed(['jpg', 'png'])])
+    university = StringField('学校',
+                             validators=[DataRequired(), Length(min=2, max=20)])
+    major = StringField('专业',
+                        validators=[DataRequired(), Length(min=2, max=20)])
+    interest1 = StringField('兴趣 1',
+                            validators=[DataRequired(), Length(min=2, max=20)])
+    interest2 = StringField('兴趣 2',
+                            validators=[Length(min=2, max=20)])
+    submit = SubmitField('更新')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError('用户名已存在，请更换用户名')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('邮箱已存在，请更换邮箱')
