@@ -26,5 +26,7 @@ class PasswordAuth(BaseAuth):
         return {
             "email": input["email"],
             "type": "password",
-            "password": input["password"]
+            "password": input["password"],
+            "username": input["username"],
+            "interest1": input["interest1"]
         }

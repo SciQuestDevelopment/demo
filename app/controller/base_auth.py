@@ -27,6 +27,7 @@ class BaseAuth(ABC):
         "email":"xxx",
         "type": "the type",
         "password": "string which will be our password"
+        other register info
     }
     """
     @abstractmethod
@@ -52,11 +53,12 @@ class BaseAuth(ABC):
         return True, 'login successfully'
 
     def signup_user(self, info):
-        email, type, password = info["email"], info["type"], info["password"]
+        email, type, password, username,interest = info["email"], info["type"], info["password"],\
+                                                    info["username"], info["interest1"]
         if User.query.filter_by(email=email).first() is not None:
             return False, 'email already exists'
 
-        u = User(email=email, password=password)
+        u = User(email=email, password=password, username=username, interest1=interest)
 
         try:
             db.session.add(u)
