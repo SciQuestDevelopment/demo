@@ -179,7 +179,7 @@ def send_reset_email(user):
     msg = Message('Password Reset Request',
                   sender='noreply@SciquestServer.com',
                   recipients=[user.email])
-    msg.body = f'''访问一下链接，以重置您的密码:
+    msg.body = f'''访问以下链接，以重置您的密码:
 {url_for('reset_token', token=token, _external=True)}
 
 如果不是本人操作，请忽略此邮件
