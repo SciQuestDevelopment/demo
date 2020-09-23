@@ -1,11 +1,15 @@
-from flask import render_template, url_for, flash, redirect, request,abort
-from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm,UpdateAccountForm,PostForm
+from flask import render_template, url_for, flash, redirect, request, abort
+from app import app, db, bcrypt, mail
+from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+                       PostForm, RequestResetForm, ResetPasswordForm)
 from app.models import User, Post
 from PIL import Image
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
+
 import os
 import secrets
+
 
 @app.route("/")
 @app.route("/home")
@@ -104,12 +108,14 @@ def account():
     return render_template('account.html', title='账户信息',
                            image_file=image_file, form=form)
 
+
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data,description=form.description.data, content=form.content.data, author=current_user)
+        post = Post(title=form.title.data, description=form.description.data, content=form.content.data,
+                    author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('发表成功！', 'success')
@@ -157,11 +163,57 @@ def delete_post(post_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
+
 @app.route("/user/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(author=user)\
-        .order_by(Post.date_posted.desc())\
+    posts = Post.query.filter_by(author=user) \
+        .order_by(Post.date_posted.desc()) \
         .paginate(page=page, per_page=5)
     return render_template('user_posts.html', posts=posts, user=user)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request',
+                  sender='noreply@SciquestServer.com',
+                  recipients=[user.email])
+    msg.body = f'''访问一下链接，以重置您的密码:
+{url_for('reset_token', token=token, _external=True)}
+
+如果不是本人操作，请忽略此邮件
+'''
+    mail.send(msg)
+
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('重置邮件已发送至您的邮箱，请查收', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('密钥过期或失效', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('重置密码成功', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
+
