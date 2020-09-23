@@ -1,11 +1,14 @@
 from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt, mail
 from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-                       PostForm, RequestResetForm, ResetPasswordForm)
+                       PostForm, RequestResetForm, ResetPasswordForm,
+                       PubQueryForm)
 from app.models import User, Post
 from PIL import Image
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+
+from scholarly import scholarly
 
 import os
 import secrets
@@ -215,5 +218,14 @@ def reset_token(token):
         db.session.commit()
         flash('重置密码成功', 'success')
         return redirect(url_for('login'))
-    return render_template('reset_token.html', title='Reset Password', form=form)
+    return render_template('reset_token.html', title='重置密码', form=form)
+
+
+@app.route("/search_pub", methods=['GET', 'POST'])
+def pub_query():
+    form = PubQueryForm()
+    if form.validate_on_submit():
+        search_query = scholarly.search_pubs(form.pub_name.data)
+        return render_template('pub_results.html', title='文献查询结果', pubs=search_query)
+    return render_template('search_pub.html', title='文献查询', form=form)
 

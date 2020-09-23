@@ -95,3 +95,9 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+
+class PubQueryForm(FlaskForm):
+    pub_name = StringField('文献名称', validators=[DataRequired()])
+    submit = SubmitField('搜索')
+
