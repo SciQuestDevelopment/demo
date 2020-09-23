@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from app.models import User
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('用户名',
@@ -12,13 +13,13 @@ class RegistrationForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     password = PasswordField('密码', validators=[DataRequired()])
     university = StringField('学校',
-                           validators=[DataRequired(), Length(min=2, max=20)])
-    major = StringField('专业',
                              validators=[DataRequired(), Length(min=2, max=20)])
-    interest1 = StringField('兴趣 1',
+    major = StringField('专业',
                         validators=[DataRequired(), Length(min=2, max=20)])
+    interest1 = StringField('兴趣 1',
+                            validators=[DataRequired(), Length(min=2, max=20)])
     interest2 = StringField('兴趣 2',
-                        validators=[Length(min=2, max=20)])
+                            validators=[Length(min=2, max=20)])
     confirm_password = PasswordField('确认密码',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('注册')
@@ -33,12 +34,14 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('邮箱地址已存在，请更换邮箱')
 
+
 class LoginForm(FlaskForm):
     email = StringField('邮箱',
                         validators=[DataRequired(), Email()])
     password = PasswordField('密码', validators=[DataRequired()])
     remember = BooleanField('记住我')
     submit = SubmitField('登陆')
+
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('用户名',
@@ -74,3 +77,21 @@ class PostForm(FlaskForm):
     description = TextAreaField('主题', validators=[DataRequired()])
     content = TextAreaField('内容', validators=[DataRequired()])
     submit = SubmitField('确认发布')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('该邮箱尚未注册')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
