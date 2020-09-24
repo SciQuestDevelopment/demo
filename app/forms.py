@@ -20,6 +20,8 @@ class RegistrationForm(FlaskForm):
                             validators=[DataRequired(), Length(min=2, max=20)])
     interest2 = StringField('兴趣 2',
                             validators=[Length(min=2, max=20)])
+    url = StringField('个人主页',
+                      validators=[Length(min=2, max=20)])
     confirm_password = PasswordField('确认密码',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('注册')
@@ -57,6 +59,8 @@ class UpdateAccountForm(FlaskForm):
                             validators=[DataRequired(), Length(min=2, max=20)])
     interest2 = StringField('兴趣 2',
                             validators=[Length(min=2, max=20)])
+    url = StringField('个人主页',
+                      validators=[Length(min=2, max=20)])
     submit = SubmitField('更新')
 
     def validate_username(self, username):
@@ -75,7 +79,8 @@ class UpdateAccountForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired()])
     description = TextAreaField('主题', validators=[DataRequired()])
-    content = TextAreaField('内容', validators=[DataRequired()])
+    url = StringField('url', validators=[DataRequired()])
+    venue = StringField('期刊', validators=[DataRequired()])
     submit = SubmitField('确认发布')
 
 
@@ -111,8 +116,7 @@ class VenueQueryForm(FlaskForm):
 
     submit = SubmitField('搜索')
 
+
 class AuthorQueryForm(FlaskForm):
     author_name = StringField('作者', validators=[DataRequired()])
     submit = SubmitField('搜索')
-
-

@@ -37,8 +37,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password,
                     university=form.university.data, major=form.major.data, interest1=form.interest1.data,
-                    interest2=form.interest2.data)
-        # user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+                    interest2=form.interest2.data, url=form.url.data)
 
         db.session.add(user)
         db.session.commit()
@@ -98,6 +97,7 @@ def account():
         current_user.major = form.major.data
         current_user.interest1 = form.interest1.data
         current_user.interest2 = form.interest2.data
+        current_user.url = form.url.data
         db.session.commit()
         flash('账户更新成功！', 'success')
         return redirect(url_for('account'))
@@ -108,6 +108,7 @@ def account():
         form.major.data = current_user.major
         form.interest1.data = current_user.interest1
         form.interest2.data = current_user.interest2
+        form.url.data = current_user.url
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='账户信息',
                            image_file=image_file, form=form)
@@ -118,8 +119,8 @@ def account():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, description=form.description.data, content=form.content.data,
-                    author=current_user)
+        post = Post(title=form.title.data, description=form.description.data, author=current_user,
+                    url=form.url.data, venue=form.venue.data)
         db.session.add(post)
         db.session.commit()
         flash('发表成功！', 'success')
@@ -144,14 +145,16 @@ def update_post(post_id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.description = form.description.data
-        post.content = form.content.data
+        post.url = form.url.data
+        post.venue = form.venue.data
         db.session.commit()
         flash('Your post has been updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
     elif request.method == 'GET':
         form.title.data = post.title
         form.description.data = post.description
-        form.content.data = post.content
+        form.url.data = post.url
+        form.venue.data = post.venue
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
 
@@ -237,6 +240,7 @@ def pub_query():
                 break;
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_pub.html', title='文献查询', form=form)
+
 
 @app.route("/search_author", methods=['GET', 'POST'])
 def auth_query():
