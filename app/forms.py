@@ -101,3 +101,4 @@ class PubQueryForm(FlaskForm):
     pub_name = StringField('文献名称', validators=[DataRequired()])
     submit = SubmitField('搜索')
 
+
