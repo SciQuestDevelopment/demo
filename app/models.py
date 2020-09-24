@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     major = db.Column(db.String(60), nullable=False)
     interest1 = db.Column(db.String(60), nullable=False)
     interest2 = db.Column(db.String(60), nullable=False)
+    url = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
@@ -45,7 +46,8 @@ class Post(db.Model):
     title = db.Column(db.String(20), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.Text, nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    url = db.Column(db.String(256), nullable=False)
+    venue = db.Column(db.String(64), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):

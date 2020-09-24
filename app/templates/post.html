@@ -14,7 +14,8 @@
         {% endif %}
       </div>
       <h2 class="article-title">{{ post.title }}</h2>
-      <p class="article-content">{{ post.content }}</p>
+        <small class="text-muted">{{ post.venue }}</small>
+      <a href="https://{{ post.url }}" target="_blank" class="text-muted">{{ post.url }} </a>
     </div>
   </article>
   <!-- Modal -->
