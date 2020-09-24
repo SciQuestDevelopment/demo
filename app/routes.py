@@ -225,7 +225,16 @@ def reset_token(token):
 def pub_query():
     form = PubQueryForm()
     if form.validate_on_submit():
-        search_query = scholarly.search_pubs(form.pub_name.data)
-        return render_template('pub_results.html', title='文献查询结果', pubs=search_query)
+        search_query = scholarly.search_pubs("computer science")
+        pubs = []
+        for i in range(20):
+            try:
+                pub = next(search_query)
+                pubs.append(pub)
+                print(pub)
+            except:
+                print("End of the iterator")
+                break;
+        return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_pub.html', title='文献查询', form=form)
 

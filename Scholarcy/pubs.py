@@ -1,12 +1,11 @@
-# import json
-#
-# from scholarly import scholarly
-#
-# query = scholarly.search_pubs("computer vision")
-# pub = next(query)
-#
-# jsonStr = json.dumps(pub.bib)
-# print(jsonStr)
-# # print(type(pub.bibtex))
-import secrets
-print(secrets.token_hex(16))
+from scholarly import scholarly
+search_query = scholarly.search_pubs("computer science")
+list1 = []
+for i in range(20):
+    try:
+        pub = next(search_query)
+        list1.append(pub)
+        print(pub)
+    except:
+        print("End of the iterator")
+        break;
