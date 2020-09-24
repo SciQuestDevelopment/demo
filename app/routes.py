@@ -37,7 +37,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password,
                     university=form.university.data, major=form.major.data, interest1=form.interest1.data,
-                    interest2=form.interest2.data, url=form.url.data)
+                    interest2=form.interest2.data)
 
         db.session.add(user)
         db.session.commit()
@@ -97,7 +97,6 @@ def account():
         current_user.major = form.major.data
         current_user.interest1 = form.interest1.data
         current_user.interest2 = form.interest2.data
-        current_user.url = form.url.data
         db.session.commit()
         flash('账户更新成功！', 'success')
         return redirect(url_for('account'))
@@ -108,7 +107,6 @@ def account():
         form.major.data = current_user.major
         form.interest1.data = current_user.interest1
         form.interest2.data = current_user.interest2
-        form.url.data = current_user.url
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='账户信息',
                            image_file=image_file, form=form)

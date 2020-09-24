@@ -2,7 +2,8 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_wtf.html5 import URLField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,url
 from app.models import User
 
 
@@ -20,8 +21,7 @@ class RegistrationForm(FlaskForm):
                             validators=[DataRequired(), Length(min=2, max=20)])
     interest2 = StringField('兴趣 2',
                             validators=[Length(min=2, max=20)])
-    url = StringField('个人主页',
-                      validators=[Length(min=2, max=20)])
+
     confirm_password = PasswordField('确认密码',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('注册')
@@ -59,8 +59,7 @@ class UpdateAccountForm(FlaskForm):
                             validators=[DataRequired(), Length(min=2, max=20)])
     interest2 = StringField('兴趣 2',
                             validators=[Length(min=2, max=20)])
-    url = StringField('个人主页',
-                      validators=[Length(min=2, max=20)])
+
     submit = SubmitField('更新')
 
     def validate_username(self, username):
@@ -79,7 +78,7 @@ class UpdateAccountForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired()])
     description = TextAreaField('主题', validators=[DataRequired()])
-    url = StringField('url', validators=[DataRequired()])
+    url = URLField(validators=[url()])
     venue = StringField('期刊', validators=[DataRequired()])
     submit = SubmitField('确认发布')
 

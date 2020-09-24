@@ -20,7 +20,6 @@ class User(db.Model, UserMixin):
     major = db.Column(db.String(60), nullable=False)
     interest1 = db.Column(db.String(60), nullable=False)
     interest2 = db.Column(db.String(60), nullable=False)
-    url = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
