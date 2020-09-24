@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt, mail
 from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                        PostForm, RequestResetForm, ResetPasswordForm,
-                       PubQueryForm,AuthorQueryForm)
+                       PubQueryForm,AuthorQueryForm,VenueQueryForm)
 from app.models import User, Post
 from PIL import Image
 from flask_login import login_user, current_user, logout_user, login_required
@@ -12,6 +12,7 @@ from scholarly import scholarly
 
 import os
 import secrets
+import html
 
 
 @app.route("/")
@@ -231,9 +232,8 @@ def pub_query():
             try:
                 pub = next(search_query)
                 pubs.append(pub)
-                print(pub)
             except:
-                print("End of the iterator")
+                # print("End of the iterator")
                 break;
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_pub.html', title='文献查询', form=form)
@@ -249,8 +249,27 @@ def auth_query():
                 author = next(search_query)
                 authors.append(author)
             except:
-                print("End of the iterator")
+                # print("End of the iterator")
                 break;
         return render_template('author_results.html', title='文献查询结果', authors=authors)
     return render_template('search_author.html', title='查作者', form=form)
+
+@app.route("/search_venue", methods=['GET', 'POST'])
+def venue_query():
+    form = VenueQueryForm()
+    if form.validate_on_submit():
+        query = form.pub_name.data + form.venue_name.data
+        query = html.unescape(query)
+        print(query)
+        search_query = scholarly.search_pubs(query)
+        pubs = []
+        for i in range(20):
+            try:
+                pub = next(search_query)
+                pubs.append(pub)
+            except:
+                # print("End of the iterator")
+                break;
+        return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
+    return render_template('search_venue.html', title='查文献', form=form)
 

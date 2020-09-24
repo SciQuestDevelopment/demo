@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">文献搜索</legend>
+{#                <label for="venues">{{ form.venue_name.label(class="form-control-label") }}:</label>#}
+{#                <select name="venues" id="venues">#}
+{##}
+{#                <option value="&quot;advanced science&quot; source:advanced source:science">Advanced Science </option>#}
+{#                <option value="&quot;advanced materials&quot; source:advanced source:materials">Advanced Materials </option>#}
+{#                <option value="&quot;progress in materials science&quot; source:progress source:in source:materials source:science">Progress in materials science</option>#}
+{#                <option value="&quot;joule&quot; source:joule">Joule</option>#}
+{#                <option value="&quot;science&quot; source:science">Science</option>#}
+{#                <option value="&quot;nature reviews materials&quot; source:nature source:reviews source:materials">Nature Reviews Materials</option>#}
+{#                <option value="&quot;nature&quot; source:nature">Nature</option>#}
+{#                <option value="&quot;nature materials&quot; source:nature source:materials">Nature Materials</option>#}
+{#                <option value=" &quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry">Nature Reviews Chemistry</option>#}
+{#                <option value=" &quot;nature chemistry&quot; source:nature source:chemistry">Nature Chemistry</option>#}
+{#                <option value="&quot;chemical society reviews&quot; source:chemical source:society source:reviews">Chemical Society Reviews</option>#}
+{##}
+{#                </select>#}
+             <div class="form-group">
+                    {{ form.venue_name.label(class="form-control-label") }}
+                 {{ form.venue_name(class="form-control form-control-lg") }}
+                </div>
+                <div class="form-group">
+                    {{ form.pub_name.label(class="form-control-label") }}
+                    {% if form.pub_name.errors %}
+                        {{ form.pub_name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.pub_name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.pub_name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}
