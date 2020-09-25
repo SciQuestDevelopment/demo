@@ -8,7 +8,13 @@
           <div class="media-body">
               <div class="article-metadata">
             <a href="{{ url_for('pub_query_by_author', author=author.name) }}" class="article-title">{{ author.name }}</a>
-                  <a class="mr-2" href="mailto:{{ author.email }}">
+              </div>
+          <div class="article-metadata">
+
+                  <a class="mr-2">
+                      {{ author.affiliation }}
+                  </a>
+              <a class="mr-2" href="mailto:{{ author.email }}">
                       {{ author.email }}
                   </a>
               </div>
