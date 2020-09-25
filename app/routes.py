@@ -235,9 +235,23 @@ def pub_query():
                 pubs.append(pub)
             except:
                 # print("End of the iterator")
-                break;
+                break
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_pub.html', title='文献查询', form=form)
+
+
+@app.route("/search_pub/<string:author>", methods=['GET', 'POST'])
+def pub_query_by_author(author):
+    search_query = scholarly.search_pubs(author)
+    pubs = []
+    for i in range(20):
+        try:
+            pub = next(search_query)
+            pubs.append(pub)
+        except:
+            # print("End of the iterator")
+            break
+    return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
 
 
 @app.route("/search_author", methods=['GET', 'POST'])
@@ -252,7 +266,7 @@ def auth_query():
                 authors.append(author)
             except:
                 # print("End of the iterator")
-                break;
+                break
         return render_template('author_results.html', title='文献查询结果', authors=authors)
     return render_template('search_author.html', title='查作者', form=form)
 
@@ -271,7 +285,7 @@ def venue_query():
                 pubs.append(pub)
             except:
                 # print("End of the iterator")
-                break;
+                break
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_venue.html', title='查文献', form=form)
 
