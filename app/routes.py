@@ -247,6 +247,7 @@ def pub_query_by_author(author):
     for i in range(20):
         try:
             pub = next(search_query)
+            print(pub)
             pubs.append(pub)
         except:
             # print("End of the iterator")
@@ -283,6 +284,7 @@ def venue_query():
         for i in range(20):
             try:
                 pub = next(search_query)
+                print(pub)
                 pubs.append(pub)
             except:
                 # print("End of the iterator")

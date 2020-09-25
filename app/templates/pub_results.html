@@ -12,7 +12,7 @@
                           {% print(i + ', ') %}
                       {% endfor %}
                   </a>
-                  <small class="text-muted">{{ pub.bib['year'] }}</small>
+                  <small class="text-muted"> {{ pub.bib['year'] }} {{ pub.bib['venue'] }}</small>
               </div>
                       <h2><a class="article-title" href="{{ pub.bib['url'] }}">{{ pub.bib['title'] }}</a></h2>
             <p class="article-content">{{ pub.bib['abstract'] }}... </p>
