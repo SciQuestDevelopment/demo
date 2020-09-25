@@ -267,7 +267,8 @@ def auth_query():
             except:
                 # print("End of the iterator")
                 break
-        return render_template('author_results.html', title='文献查询结果', authors=authors)
+        print(authors)
+        return render_template('author_results.html', title='文献查询结果', authors=authors, len=len(authors))
     return render_template('search_author.html', title='查作者', form=form)
 
 @app.route("/search_venue", methods=['GET', 'POST'])
