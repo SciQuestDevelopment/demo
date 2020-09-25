@@ -146,6 +146,5 @@ cython_debug/
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
-app.py
-static/
-templates/
+!/app/site.db
+app/site.db

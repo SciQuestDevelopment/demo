@@ -1,0 +1,20 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    {% for author in authors %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a href="{{ url_for('pub_query_by_author', author=author.name) }}" class="article-title">{{ author.name }}</a></h2>
+              <div class="article-metadata">
+                  <a class="mr-2">
+                      email {{ author.email }}
+                  </a>
+                  <a class="mr-2">
+                      affiliation {{ author.affilication }}
+                  </a>
+              </div>
+            <p class="article-content">{{ author.interests }}  </p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
