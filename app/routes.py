@@ -251,7 +251,7 @@ def pub_query_by_author(author):
         except:
             # print("End of the iterator")
             break
-    return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
+    return render_template('pub_results.html', title='文献查询结果', pubs=pubs, au=author)
 
 
 @app.route("/search_author", methods=['GET', 'POST'])
