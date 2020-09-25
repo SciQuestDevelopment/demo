@@ -147,3 +147,4 @@ cython_debug/
 .idea/modules.xml
 .idea/vcs.xml
 !/app/site.db
+app/site.db
