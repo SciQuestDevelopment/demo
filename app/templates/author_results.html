@@ -3,17 +3,29 @@
 {% block content %}
     {% for author in authors %}
         <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ author.url_picture }}">
+
           <div class="media-body">
-            <h2><a href="{{ url_for('pub_query_by_author', author=author.name) }}" class="article-title">{{ author.name }}</a></h2>
               <div class="article-metadata">
+            <a href="{{ url_for('pub_query_by_author', author=author.name) }}" class="article-title">{{ author.name }}</a>
+              </div>
+          <div class="article-metadata">
+
                   <a class="mr-2">
-                      email {{ author.email }}
+                      {{ author.affiliation }}
                   </a>
-                  <a class="mr-2">
-                      affiliation {{ author.affilication }}
+              <a class="mr-2" href="mailto:{{ author.email }}">
+                      {{ author.email }}
                   </a>
               </div>
-            <p class="article-content">{{ author.interests }}  </p>
+            <a>Interests:</a>
+              <ul>
+            {%for i in author.interests %}
+
+                <li>{% print(i) %} </li>
+            {%endfor%}
+
+            </ul>
           </div>
         </article>
     {% endfor %}

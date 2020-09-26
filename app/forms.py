@@ -107,7 +107,7 @@ class PubQueryForm(FlaskForm):
 
 class VenueQueryForm(FlaskForm):
     pub_name = StringField('文献名称', validators=[DataRequired()])
-    venue_name = SelectField('期刊名称', choices=[('&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'),('&quot;advanced materials&quot; source:advanced source:materials','Advanced Materials'),
+    venue_name = SelectField('期刊名称', choices=[('', 'All Sources'),('&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'),('&quot;advanced materials&quot; source:advanced source:materials','Advanced Materials'),
                                               ('&quot;progress in materials science&quot; source:progress source:in source:materials source:science','Progress in materials science'),('&quot;joule&quot; source:joule','Joule'),
                                               ('&quot;science&quot; source:science','Science'),('&quot;nature reviews materials&quot; source:nature source:reviews source:materials','Nature Reviews Materials'),
                                               ('&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry','Nature Reviews Chemistry'),('&quot;nature chemistry&quot; source:nature source:chemistry','Nature Chemistry'),
