@@ -11,3 +11,5 @@ email-validator == 1.0.5
 Flask-SQLAlchemy~=2.4.4
 Flask-Bcrypt~=0.7.1
 Flask-Mail==0.9.1
+pillow
+Flask-login
