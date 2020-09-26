@@ -1,5 +1,5 @@
 body {
-  background: #fafafa;
+  background: #dddddd;
   color: #333333;
   margin-top: 5rem;
 }
@@ -8,20 +8,21 @@ h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
-.bg-steel {
-  background-color: #5f788a;
-}
+/*.bg-steel {*/
+/*  background-color: #dcdcdc;*/
+/*}*/
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #992b1e;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #000000;
 }
 
 .site-header .navbar-nav .nav-link.active {
   font-weight: 500;
+  color: #2a2a2a;
 }
 
 .content-section {
@@ -46,6 +47,12 @@ a.article-title:hover {
 }
 
 .article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-nav-img {
   height: 65px;
   width: 65px;
   margin-right: 16px;
