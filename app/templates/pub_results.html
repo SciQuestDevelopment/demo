@@ -3,6 +3,7 @@
     {% if au %}
         <title>来自 {{ au }}</title>
     {% endif %}
+    {{ form.pub_name }}
     {% for pub in pubs %}
         <article class="media content-section">
           <div class="media-body">
@@ -18,5 +19,30 @@
             <p class="article-content">{{ pub.bib['abstract'] }}... </p>
           </div>
         </article>
+
     {% endfor %}
+    </div>
+    <div class="col-md-4">
+          <div class="content-section">
+            <h3>Search Fields</h3>
+{#            <p class='text-muted'>You can put any information here you'd like.#}
+             <div class="form-check">
+                        {{ form.checkbox1(class="form-check-input") }}
+                        {{ form.checkbox1.label(class="form-check-label") }}
+                    </div>
+                <div class="form-check">
+                    {{ form.checkbox2(class="form-check-input") }}
+                    {{ form.checkbox2.label(class="form-check-label") }}
+                </div>
+                <div class="form-check">
+                    {{ form.checkbox3(class="form-check-input") }}
+                    {{ form.checkbox3.label(class="form-check-label") }}
+                </div>
+                <div class="form-check">
+                    {{ form.checkbox4(class="form-check-input") }}
+                    {{ form.checkbox4.label(class="form-check-label") }}
+                </div>
+            </p>
+          </div>
+        </div>
 {% endblock content %}

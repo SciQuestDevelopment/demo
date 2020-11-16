@@ -236,8 +236,23 @@ def pub_query():
             except:
                 # print("End of the iterator")
                 break
-        return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
+        return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
     return render_template('search_pub.html', title='文献查询', form=form)
+
+# def pub_query():
+#     form = PubQueryForm()
+#     if form.validate_on_submit():
+#         search_query = scholarly.search_pubs(form.pub_name.data)
+#         pubs = []
+#         for i in range(20):
+#             try:
+#                 pub = next(search_query)
+#                 pubs.append(pub)
+#             except:
+#                 # print("End of the iterator")
+#                 break
+#         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
+#     return render_template('search_pub1.html')
 
 
 @app.route("/search_pub/<string:author>", methods=['GET', 'POST'])
@@ -291,4 +306,14 @@ def venue_query():
                 break
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_venue.html', title='查文献', form=form)
+
+def processString(data):
+    data = data.lower()
+    res = '&quot;'
+    res += data.lower() + '&quot; '
+    d = data.split()
+    for temp in d:
+        res += 'source:' + temp + ' '
+    return res
+    # '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'
 
