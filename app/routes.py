@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from app import app, db, bcrypt, mail
 from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                        PostForm, RequestResetForm, ResetPasswordForm,
-                       PubQueryForm,AuthorQueryForm,VenueQueryForm)
+                       PubQueryForm, AuthorQueryForm, VenueQueryForm)
 from app.models import User, Post
 from PIL import Image
 from flask_login import login_user, current_user, logout_user, login_required
@@ -225,26 +225,22 @@ def reset_token(token):
 
 @app.route("/search_pub", methods=['GET', 'POST'])
 def pub_query():
-    if request.method == 'POST':
-        print(request.form.getlist('venue'))
-        print(request.form.getlist('time'))
-        print(request.form.getlist('input'))
+    form = PubQueryForm()
+    if form.validate_on_submit():
+        pub_name = form.pub_name.data
+        venues_name = ''.join(form.venue_name.data)
+        selected_years = form.date_range.data
+        query = html.unescape(f'{pub_name} {venues_name}')
+        search_query = scholarly.search_pubs(query)
+        pubs = []
+        for pub in search_query:
+            if len(pubs) > 20: break
+            if pub is None or pub.bib is None or 'year' not in pub.bib: continue
+            if len(selected_years) != 0 and pub.bib['year'] not in selected_years: continue
+            pubs.append(pub)
+        return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
+    return render_template('search_pub.html', title='文献查询', form=form)
 
-        var = ""
-
-
-    # if form.validate_on_submit():
-    #     search_query = scholarly.search_pubs(form.pub_name.data)
-    #     pubs = []
-    #     for i in range(20):
-    #         try:
-    #             pub = next(search_query)
-    #             pubs.append(pub)
-    #         except:
-    #             # print("End of the iterator")
-    #             break
-    #     return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
-    return render_template('search_pub.html', title='文献查询')
 
 # def pub_query():
 #     form = PubQueryForm()
@@ -293,6 +289,8 @@ def auth_query():
         print(authors)
         return render_template('author_results.html', title='文献查询结果', authors=authors, len=len(authors))
     return render_template('search_author.html', title='查作者', form=form)
+
+
 # example code
 @app.route("/search_venue", methods=['GET', 'POST'])
 def venue_query():
@@ -314,6 +312,7 @@ def venue_query():
         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)
     return render_template('search_venue.html', title='查文献', form=form)
 
+
 def processString(data):
     data = data.lower()
     res = '&quot;'
@@ -323,4 +322,3 @@ def processString(data):
         res += 'source:' + temp + ' '
     return res
     # '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'
-

@@ -2,38 +2,13 @@
 {% block content %}
     <div class="content-section">
         <form method="POST" action="">
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">文献搜索</legend>
-                <div class="form-group">
-                    <div>
-                        <label>文献</label>
-                        <input type="checkbox" name="venue" value="2D Materials"> 2D Materials
-                        <input type="checkbox" name="venue" value="Nanophotonics"> Nanophotonics
-                        <input type="checkbox" name="venue" value="ACS Photonics"> ACS Photonics <br/><br/>
-                        <label>时间</label>
-                        <input type="checkbox" name="time" value="2018"> 2018
-                        <input type="checkbox" name="time" value="2019"> 2019
-                        <input type="checkbox" name="time" value="2020"> 2020
-                    <br/><br/>
-                        <label for="site-search">输入</label> <br/>
-                        <input type="search" id="input" name="input"
-                               aria-label="Search through site content">
-                    </div>
-                </div>
-            </fieldset>
-            <div class="form-group">
-                <input type="submit">
-            </div>
+            <legend class="border-bottom mb-4">文献搜索</legend>
+            {{form.csrf_token}}<!渲染CSRF令牌隐藏字段>
+            {{form.venue_name.label}} <br/> {{form.venue_name(style="columns:3")}}
+            {{form.date_range.label}} <br/> {{form.date_range(style="columns:5")}}
+            {{form.pub_name.label}} <br/> {{ form.pub_name(class="form-control form-control-lg")}}
+            <br/>
+            {{form.submit(class="btn btn-outline-info")}}
         </form>
     </div>
-    {#    <div class="col-md-4">#}
-    {#          <div class="content-section">#}
-    {#            <h3>Search Fields</h3>#}
-    {#            <p class='text-muted'>You can put any information here you'd like.#}
-    {##}
-    {#                <div class="form-check">#}
-    {#                </div>#}
-    {#            </p>#}
-    {#          </div>#}
-    {#    </div>#}
 {% endblock content %}

@@ -1,9 +1,11 @@
+from typing import List, Tuple
+from xml.sax.saxutils import escape
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms.widgets.core import ListWidget,CheckboxInput
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,SelectField, SelectMultipleField
-from flask_wtf.html5 import URLField
+from wtforms.fields.html5 import URLField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,url
 from app.models import User
 
@@ -63,11 +65,13 @@ class UpdateAccountForm(FlaskForm):
 
     submit = SubmitField('更新')
 
+
     def validate_username(self, username):
         if username.data != current_user.username:
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('用户名已存在，请更换用户名')
+
 
     def validate_email(self, email):
         if email.data != current_user.email:
@@ -105,42 +109,61 @@ class ResetPasswordForm(FlaskForm):
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(prefix_label=False)
     option_widget = CheckboxInput()
-# class ExampleForm(FlaskForm):
-#     choices = MultiCheckboxField('Routes', coerce=int)
-#     submit = SubmitField("Set User Choices")
+
+
+class PubCheckboxField(MultiCheckboxField):
+    @staticmethod
+    def __from_pubs_to_tuples(pub_names: List[str]) -> List[Tuple]:
+        output = [('', 'All Sources')]
+        for pub_name in pub_names:
+            lower = pub_name.lower()
+            words = lower.split(' ')
+            handled = f'"{lower}" source:{" source:".join(words)}'.replace('"', '&quot;')
+            output.append((handled, pub_name))
+        return output
+
+    def __init__(self, label: str, **kwargs):
+        kwargs['choices'] = self.__from_pubs_to_tuples(kwargs['choices'])
+        super().__init__(label, **kwargs)
+        return
+
+
+class DateCheckboxField(MultiCheckboxField):
+    @staticmethod
+    def __from_years_to_tuples(rel_years: List[int]) -> List[Tuple]:
+        return [(str(rel_year), str(rel_year)) for rel_year in rel_years]
+
+    def __init__(self, label: str, **kwargs):
+        kwargs['choices'] = self.__from_years_to_tuples(kwargs['choices'])
+        super().__init__(label, **kwargs)
+        return
+
 
 class PubQueryForm(FlaskForm):
-    pub_name = StringField('文献名称', validators=[DataRequired()])
-    venue_name = MultiCheckboxField('期刊名称', choices=[('', 'All Sources'), (
-    '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'), (
-                                              '&quot;advanced materials&quot; source:advanced source:materials',
-                                              'Advanced Materials'),
-                                              (
-                                              '&quot;progress in materials science&quot; source:progress source:in source:materials source:science',
-                                              'Progress in materials science'),
-                                              ('&quot;joule&quot; source:joule', 'Joule'),
-                                              ('&quot;science&quot; source:science', 'Science'), (
-                                              '&quot;nature reviews materials&quot; source:nature source:reviews source:materials',
-                                              'Nature Reviews Materials'),
-                                              (
-                                              '&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry',
-                                              'Nature Reviews Chemistry'), (
-                                              '&quot;nature chemistry&quot; source:nature source:chemistry',
-                                              'Nature Chemistry'),
-                                              (
-                                              '&quot;chemical society reviews&quot; source:chemical source:society source:reviews',
-                                              'Chemical Society Reviews')])
-
-    submit = SubmitField('搜索')
+    venue_name = PubCheckboxField(u'期刊名称', choices=[
+        'Advanced Science', 'Advanced Materials',
+        'Progress in materials science', 'Joule', 'Science',
+        'Nature Reviews Materials', 'Nature Reviews Chemistry', 'Nature Chemistry', 'Chemical Society Reviews'
+    ])
+    date_range = DateCheckboxField(u'发布年份', choices=range(2010, 2020))
+    pub_name = StringField(u'文献名称', validators=[DataRequired()])
+    submit = SubmitField(u'搜索')
 
 
 class VenueQueryForm(FlaskForm):
     pub_name = StringField('文献名称', validators=[DataRequired()])
-    venue_name = SelectField('期刊名称', choices=[('', 'All Sources'),('&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'),('&quot;advanced materials&quot; source:advanced source:materials','Advanced Materials'),
-                                              ('&quot;progress in materials science&quot; source:progress source:in source:materials source:science','Progress in materials science'),('&quot;joule&quot; source:joule','Joule'),
-                                              ('&quot;science&quot; source:science','Science'),('&quot;nature reviews materials&quot; source:nature source:reviews source:materials','Nature Reviews Materials'),
-                                              ('&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry','Nature Reviews Chemistry'),('&quot;nature chemistry&quot; source:nature source:chemistry','Nature Chemistry'),
-                                              ('&quot;chemical society reviews&quot; source:chemical source:society source:reviews','Chemical Society Reviews')])
+    venue_name = SelectField('期刊名称', choices=[
+        ('', 'All Sources'),
+        ('&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'),
+        ('&quot;advanced materials&quot; source:advanced source:materials', 'Advanced Materials'),
+        ('&quot;progress in materials science&quot; source:progress source:in source:materials source:science', 'Progress in materials science'),
+        ('&quot;joule&quot; source:joule', 'Joule'),
+        ('&quot;science&quot; source:science', 'Science'),
+        ('&quot;nature reviews materials&quot; source:nature source:reviews source:materials', 'Nature Reviews Materials'),
+        ('&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry', 'Nature Reviews Chemistry'),
+        ('&quot;nature chemistry&quot; source:nature source:chemistry', 'Nature Chemistry'),
+        ('&quot;chemical society reviews&quot; source:chemical source:society source:reviews', 'Chemical Society Reviews')
+    ])
 
     submit = SubmitField('搜索')
 

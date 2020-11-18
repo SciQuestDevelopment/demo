@@ -1,5 +1,5 @@
 from scholarly import scholarly
-search_query = scholarly.search_pubs( query="computer science", year_low=2018,)
+search_query = scholarly.search_pubs(query="computer science", year_low=2018,)
 list1 = []
 for i in range(20):
     try:
@@ -8,7 +8,7 @@ for i in range(20):
         print(pub)
     except:
         print("End of the iterator")
-        break;
+        break
 # import html
 # s = "graphene &quot;advanced science&quot; source:advanced source:science"
 # temp = html.unescape(s)

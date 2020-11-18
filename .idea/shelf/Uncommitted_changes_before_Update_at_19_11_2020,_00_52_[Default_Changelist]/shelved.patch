@@ -1,0 +1,170 @@
+Index: Scholarcy/pubs.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from scholarly import scholarly\nsearch_query = scholarly.search_pubs(\"computer science\")\nlist1 = []\nfor i in range(20):\n    try:\n        pub = next(search_query)\n        list1.append(pub)\n        print(pub)\n    except:\n        print(\"End of the iterator\")\n        break;\n# import html\n# s = \"graphene &quot;advanced science&quot; source:advanced source:science\"\n# temp = html.unescape(s)\n# print(temp)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Scholarcy/pubs.py	(revision f9891f500b78b17f47167c566e81ddf2d304a334)
++++ Scholarcy/pubs.py	(date 1605714844892)
+@@ -8,7 +8,7 @@
+         print(pub)
+     except:
+         print("End of the iterator")
+-        break;
++        break
+ # import html
+ # s = "graphene &quot;advanced science&quot; source:advanced source:science"
+ # temp = html.unescape(s)
+Index: run.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from app import app\n\nif __name__ == '__main__':\n    app.run(debug=True)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- run.py	(revision f9891f500b78b17f47167c566e81ddf2d304a334)
++++ run.py	(date 1605712510846)
+@@ -1,4 +1,6 @@
+ from app import app
++import os
+ 
+ if __name__ == '__main__':
++    app.secret_key = f'{os.urandom(24)}'
+     app.run(debug=True)
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Created by .ignore support plugin (hsz.mobi)\n### Python template\n# Byte-compiled / optimized / DLL files\n__pycache__/\n*.py[cod]\n*$py.class\n\n# C extensions\n*.so\n\n# Distribution / packaging\n.Python\nbuild/\ndevelop-eggs/\ndist/\ndownloads/\neggs/\n.eggs/\nlib/\nlib64/\nparts/\nsdist/\nvar/\nwheels/\npip-wheel-metadata/\nshare/python-wheels/\n*.egg-info/\n.installed.cfg\n*.egg\nMANIFEST\n\n# PyInstaller\n#  Usually these files are written by a python script from a template\n#  before PyInstaller builds the exe, so as to inject date/other infos into it.\n*.manifest\n*.spec\n\n# Installer logs\npip-log.txt\npip-delete-this-directory.txt\n\n# Unit test / coverage reports\nhtmlcov/\n.tox/\n.nox/\n.coverage\n.coverage.*\n.cache\nnosetests.xml\ncoverage.xml\n*.cover\n*.py,cover\n.hypothesis/\n.pytest_cache/\ncover/\n\n# Translations\n*.mo\n*.pot\n\n# Django stuff:\n*.log\nlocal_settings.py\ndb.sqlite3\ndb.sqlite3-journal\n\n# Flask stuff:\ninstance/\n.webassets-cache\n\n# Scrapy stuff:\n.scrapy\n\n# Sphinx documentation\ndocs/_build/\n\n# PyBuilder\n.pybuilder/\ntarget/\n\n# Jupyter Notebook\n.ipynb_checkpoints\n\n# IPython\nprofile_default/\nipython_config.py\n\n# pyenv\n#   For a library or package, you might want to ignore these files since the code is\n#   intended to run in multiple environments; otherwise, check them in:\n# .python-version\n\n# pipenv\n#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.\n#   However, in case of collaboration, if having platform-specific dependencies or dependencies\n#   having no cross-platform support, pipenv may install dependencies that don't work, or not\n#   install all needed dependencies.\n#Pipfile.lock\n\n# PEP 582; used by e.g. github.com/David-OConnor/pyflow\n__pypackages__/\n\n# Celery stuff\ncelerybeat-schedule\ncelerybeat.pid\n\n# SageMath parsed files\n*.sage.py\n\n# Environments\n.env\n.venv\nenv/\nvenv/\nENV/\nenv.bak/\nvenv.bak/\n\n# Spyder project settings\n.spyderproject\n.spyproject\n\n# Rope project settings\n.ropeproject\n\n# mkdocs documentation\n/site\n\n# mypy\n.mypy_cache/\n.dmypy.json\ndmypy.json\n\n# Pyre type checker\n.pyre/\n\n# pytype static type analyzer\n.pytype/\n\n# Cython debug symbols\ncython_debug/\n\n.idea/.gitignore\n.idea/Scholarcy.iml\n.idea/inspectionProfiles/\n.idea/misc.xml\n.idea/modules.xml\n.idea/vcs.xml\n!/app/site.db\napp/site.db\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision f9891f500b78b17f47167c566e81ddf2d304a334)
++++ .gitignore	(date 1605710941795)
+@@ -5,6 +5,8 @@
+ *.py[cod]
+ *$py.class
+ 
++venv/
++
+ # C extensions
+ *.so
+ 
+Index: app/templates/search_pub.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"layout.html\" %}\n{% block content %}\n    <div class=\"content-section\">\n        <form method=\"POST\" action=\"\">\n            <fieldset class=\"form-group\">\n                <legend class=\"border-bottom mb-4\">文献搜索</legend>\n                <div class=\"form-group\">\n                    <div>\n                        <label>文献</label><br/>\n                        <input type=\"checkbox\" name=\"match\" value=\"2D Materials\"> 2D Materials\n                        <input type=\"checkbox\" name=\"match\" value=\"Nanophotonics\"> Nanophotonics\n                        <input type=\"checkbox\" name=\"match\"\n                               value=\"&quot;chemical society reviews&quot; source:chemical source:society source:reviews\">\n                        ACS Photonics<br/>\n                        <label>时间</label><br/>\n                        <input type=\"checkbox\" name=\"time\" value=\"2018\"> 2018\n                        <input type=\"checkbox\" name=\"time\" value=\"2019\"> 2019\n                        <input type=\"checkbox\" name=\"time\" value=\"2020\"> 2020\n\n                    </div>\n                </div>\n            </fieldset>\n            <div class=\"form-group\">\n                <input type=\"submit\">\n            </div>\n        </form>\n    </div>\n    {#    <div class=\"col-md-4\">#}\n    {#          <div class=\"content-section\">#}\n    {#            <h3>Search Fields</h3>#}\n    {#            <p class='text-muted'>You can put any information here you'd like.#}\n    {##}\n    {#                <div class=\"form-check\">#}\n    {#                </div>#}\n    {#            </p>#}\n    {#          </div>#}\n    {#    </div>#}\n{% endblock content %}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/templates/search_pub.html	(revision f9891f500b78b17f47167c566e81ddf2d304a334)
++++ app/templates/search_pub.html	(date 1605717878743)
+@@ -4,35 +4,18 @@
+         <form method="POST" action="">
+             <fieldset class="form-group">
+                 <legend class="border-bottom mb-4">文献搜索</legend>
++
+                 <div class="form-group">
+-                    <div>
+-                        <label>文献</label><br/>
+-                        <input type="checkbox" name="match" value="2D Materials"> 2D Materials
+-                        <input type="checkbox" name="match" value="Nanophotonics"> Nanophotonics
+-                        <input type="checkbox" name="match"
+-                               value="&quot;chemical society reviews&quot; source:chemical source:society source:reviews">
+-                        ACS Photonics<br/>
+-                        <label>时间</label><br/>
+-                        <input type="checkbox" name="time" value="2018"> 2018
+-                        <input type="checkbox" name="time" value="2019"> 2019
+-                        <input type="checkbox" name="time" value="2020"> 2020
+-
+-                    </div>
++                    {{search.csrf_token}}<!渲染CSRF令牌隐藏字段>
++                    {{search.release_venue.label}} <br/> {{search.release_venue(name="match")}}
++                    {{search.release_date.label}} <br/> {{search.release_date(name="time")}}
++                    {{search.search_bar.label}} <br/> {{ search.search_bar }}
+                 </div>
++
+             </fieldset>
+             <div class="form-group">
+                 <input type="submit">
+             </div>
+         </form>
+     </div>
+-    {#    <div class="col-md-4">#}
+-    {#          <div class="content-section">#}
+-    {#            <h3>Search Fields</h3>#}
+-    {#            <p class='text-muted'>You can put any information here you'd like.#}
+-    {##}
+-    {#                <div class="form-check">#}
+-    {#                </div>#}
+-    {#            </p>#}
+-    {#          </div>#}
+-    {#    </div>#}
+ {% endblock content %}
+Index: app/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import render_template, url_for, flash, redirect, request, abort\nfrom app import app, db, bcrypt, mail\nfrom app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,\n                       PostForm, RequestResetForm, ResetPasswordForm,\n                       PubQueryForm,AuthorQueryForm,VenueQueryForm)\nfrom app.models import User, Post\nfrom PIL import Image\nfrom flask_login import login_user, current_user, logout_user, login_required\nfrom flask_mail import Message\n\nfrom scholarly import scholarly\n\nimport os\nimport secrets\nimport html\n\n\n@app.route(\"/\")\n@app.route(\"/home\")\ndef home():\n    page = request.args.get('page', 1, type=int)\n    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)\n    return render_template('home.html', posts=posts)\n\n\n@app.route(\"/about\")\ndef about():\n    return render_template('about.html', title='About')\n\n\n@app.route(\"/register\", methods=['GET', 'POST'])\ndef register():\n    if current_user.is_authenticated:\n        return redirect(url_for('home'))\n    form = RegistrationForm()\n    if form.validate_on_submit():\n        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')\n        user = User(username=form.username.data, email=form.email.data, password=hashed_password,\n                    university=form.university.data, major=form.major.data, interest1=form.interest1.data,\n                    interest2=form.interest2.data)\n\n        db.session.add(user)\n        db.session.commit()\n        flash('Your account has been created! You are now able to log in', 'success')\n        return redirect(url_for('login'))\n    return render_template('register.html', title='Register', form=form)\n\n\n@app.route(\"/login\", methods=['GET', 'POST'])\ndef login():\n    if current_user.is_authenticated:\n        return redirect(url_for('home'))\n    form = LoginForm()\n    if form.validate_on_submit():\n        user = User.query.filter_by(email=form.email.data).first()\n        if user and bcrypt.check_password_hash(user.password, form.password.data):\n            login_user(user, remember=form.remember.data)\n            next_page = request.args.get('next')\n            flash('登陆成功', 'success')\n            return redirect(next_page) if next_page else redirect(url_for('home'))\n        else:\n            flash('登陆失败，请检查你的用户名和密码', 'danger')\n    return render_template('login.html', title='Login', form=form)\n\n\n@app.route(\"/logout\")\ndef logout():\n    logout_user()\n    return redirect(url_for('home'))\n\n\ndef save_picture(form_picture):\n    random_hex = secrets.token_hex(8)\n    _, f_ext = os.path.splitext(form_picture.filename)\n    picture_fn = random_hex + f_ext\n    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)\n\n    output_size = (125, 125)\n    i = Image.open(form_picture)\n    i.thumbnail(output_size)\n    i.save(picture_path)\n\n    return picture_fn\n\n\n@app.route(\"/account\", methods=['GET', 'POST'])\n@login_required\ndef account():\n    form = UpdateAccountForm()\n    if form.validate_on_submit():\n        if form.picture.data:\n            picture_file = save_picture(form.picture.data)\n            current_user.image_file = picture_file\n        current_user.username = form.username.data\n        current_user.email = form.email.data\n        current_user.university = form.university.data\n        current_user.major = form.major.data\n        current_user.interest1 = form.interest1.data\n        current_user.interest2 = form.interest2.data\n        db.session.commit()\n        flash('账户更新成功！', 'success')\n        return redirect(url_for('account'))\n    elif request.method == 'GET':\n        form.username.data = current_user.username\n        form.email.data = current_user.email\n        form.university.data = current_user.university\n        form.major.data = current_user.major\n        form.interest1.data = current_user.interest1\n        form.interest2.data = current_user.interest2\n    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)\n    return render_template('account.html', title='账户信息',\n                           image_file=image_file, form=form)\n\n\n@app.route(\"/post/new\", methods=['GET', 'POST'])\n@login_required\ndef new_post():\n    form = PostForm()\n    if form.validate_on_submit():\n        post = Post(title=form.title.data, description=form.description.data, author=current_user,\n                    url=form.url.data, venue=form.venue.data)\n        db.session.add(post)\n        db.session.commit()\n        flash('发表成功！', 'success')\n        return redirect(url_for('home'))\n    return render_template('create_post.html', title='发表文章',\n                           form=form, legend='发表文章')\n\n\n@app.route(\"/post/<int:post_id>\")\ndef post(post_id):\n    post = Post.query.get_or_404(post_id)\n    return render_template('post.html', title=post.title, post=post)\n\n\n@app.route(\"/post/<int:post_id>/update\", methods=['GET', 'POST'])\n@login_required\ndef update_post(post_id):\n    post = Post.query.get_or_404(post_id)\n    if post.author != current_user:\n        abort(403)\n    form = PostForm()\n    if form.validate_on_submit():\n        post.title = form.title.data\n        post.description = form.description.data\n        post.url = form.url.data\n        post.venue = form.venue.data\n        db.session.commit()\n        flash('Your post has been updated!', 'success')\n        return redirect(url_for('post', post_id=post.id))\n    elif request.method == 'GET':\n        form.title.data = post.title\n        form.description.data = post.description\n        form.url.data = post.url\n        form.venue.data = post.venue\n    return render_template('create_post.html', title='Update Post',\n                           form=form, legend='Update Post')\n\n\n@app.route(\"/post/<int:post_id>/delete\", methods=['POST'])\n@login_required\ndef delete_post(post_id):\n    post = Post.query.get_or_404(post_id)\n    if post.author != current_user:\n        abort(403)\n    db.session.delete(post)\n    db.session.commit()\n    flash('Your post has been deleted!', 'success')\n    return redirect(url_for('home'))\n\n\n@app.route(\"/user/<string:username>\")\ndef user_posts(username):\n    page = request.args.get('page', 1, type=int)\n    user = User.query.filter_by(username=username).first_or_404()\n    posts = Post.query.filter_by(author=user) \\\n        .order_by(Post.date_posted.desc()) \\\n        .paginate(page=page, per_page=5)\n    return render_template('user_posts.html', posts=posts, user=user)\n\n\ndef send_reset_email(user):\n    token = user.get_reset_token()\n    msg = Message('Password Reset Request',\n                  sender='noreply@SciquestServer.com',\n                  recipients=[user.email])\n    msg.body = f'''访问以下链接，以重置您的密码:\n{url_for('reset_token', token=token, _external=True)}\n\n如果不是本人操作，请忽略此邮件\n'''\n    mail.send(msg)\n\n\n@app.route(\"/reset_password\", methods=['GET', 'POST'])\ndef reset_request():\n    if current_user.is_authenticated:\n        return redirect(url_for('home'))\n    form = RequestResetForm()\n    if form.validate_on_submit():\n        user = User.query.filter_by(email=form.email.data).first()\n        send_reset_email(user)\n        flash('重置邮件已发送至您的邮箱，请查收', 'info')\n        return redirect(url_for('login'))\n    return render_template('reset_request.html', title='Reset Password', form=form)\n\n\n@app.route(\"/reset_password/<token>\", methods=['GET', 'POST'])\ndef reset_token(token):\n    if current_user.is_authenticated:\n        return redirect(url_for('home'))\n    user = User.verify_reset_token(token)\n    if user is None:\n        flash('密钥过期或失效', 'warning')\n        return redirect(url_for('reset_request'))\n    form = ResetPasswordForm()\n    if form.validate_on_submit():\n        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')\n        user.password = hashed_password\n        db.session.commit()\n        flash('重置密码成功', 'success')\n        return redirect(url_for('login'))\n    return render_template('reset_token.html', title='重置密码', form=form)\n\n\n@app.route(\"/search_pub\", methods=['GET', 'POST'])\ndef pub_query():\n    form = PubQueryForm()\n    if form.validate_on_submit():\n        search_query = scholarly.search_pubs(form.pub_name.data)\n        pubs = []\n        for i in range(20):\n            try:\n                pub = next(search_query)\n                pubs.append(pub)\n            except:\n                # print(\"End of the iterator\")\n                break\n        return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)\n    return render_template('search_pub.html', title='文献查询', form=form)\n\n# def pub_query():\n#     form = PubQueryForm()\n#     if form.validate_on_submit():\n#         search_query = scholarly.search_pubs(form.pub_name.data)\n#         pubs = []\n#         for i in range(20):\n#             try:\n#                 pub = next(search_query)\n#                 pubs.append(pub)\n#             except:\n#                 # print(\"End of the iterator\")\n#                 break\n#         return render_template('pub_results.html', title='文献查询结果', pubs=pubs)\n#     return render_template('search_pub1.html')\n\n\n@app.route(\"/search_pub/<string:author>\", methods=['GET', 'POST'])\ndef pub_query_by_author(author):\n    search_query = scholarly.search_pubs(author)\n    pubs = []\n    for i in range(20):\n        try:\n            pub = next(search_query)\n            print(pub)\n            pubs.append(pub)\n        except:\n            # print(\"End of the iterator\")\n            break\n    return render_template('pub_results.html', title='文献查询结果', pubs=pubs, au=author)\n\n\n@app.route(\"/search_author\", methods=['GET', 'POST'])\ndef auth_query():\n    form = AuthorQueryForm()\n    if form.validate_on_submit():\n        search_query = scholarly.search_author(form.author_name.data)\n        authors = []\n        for i in range(20):\n            try:\n                author = next(search_query)\n                authors.append(author)\n            except:\n                # print(\"End of the iterator\")\n                break\n        print(authors)\n        return render_template('author_results.html', title='文献查询结果', authors=authors, len=len(authors))\n    return render_template('search_author.html', title='查作者', form=form)\n# example code\n@app.route(\"/search_venue\", methods=['GET', 'POST'])\ndef venue_query():\n    form = VenueQueryForm()\n    if form.validate_on_submit():\n        query = form.pub_name.data + form.venue_name.data\n        query = html.unescape(query)\n        print(query)\n        search_query = scholarly.search_pubs(query)\n        pubs = []\n        for i in range(20):\n            try:\n                pub = next(search_query)\n                print(pub)\n                pubs.append(pub)\n            except:\n                # print(\"End of the iterator\")\n                break\n        return render_template('pub_results.html', title='文献查询结果', pubs=pubs)\n    return render_template('search_venue.html', title='查文献', form=form)\n\ndef processString(data):\n    data = data.lower()\n    res = '&quot;'\n    res += data.lower() + '&quot; '\n    d = data.split()\n    for temp in d:\n        res += 'source:' + temp + ' '\n    return res\n    # '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/routes.py	(revision f9891f500b78b17f47167c566e81ddf2d304a334)
++++ app/routes.py	(date 1605717806370)
+@@ -1,5 +1,6 @@
+ from flask import render_template, url_for, flash, redirect, request, abort
+ from app import app, db, bcrypt, mail
++from app.form import SearchForm
+ from app.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
+                        PostForm, RequestResetForm, ResetPasswordForm,
+                        PubQueryForm,AuthorQueryForm,VenueQueryForm)
+@@ -225,6 +226,7 @@
+ 
+ @app.route("/search_pub", methods=['GET', 'POST'])
+ def pub_query():
++    search = SearchForm()
+     form = PubQueryForm()
+     if form.validate_on_submit():
+         search_query = scholarly.search_pubs(form.pub_name.data)
+@@ -237,7 +239,7 @@
+                 # print("End of the iterator")
+                 break
+         return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
+-    return render_template('search_pub.html', title='文献查询', form=form)
++    return render_template('search_pub.html', title='文献查询', form=form, search=search)
+ 
+ # def pub_query():
+ #     form = PubQueryForm()
+Index: app/form.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/form.py	(date 1605718065704)
++++ app/form.py	(date 1605718065704)
+@@ -0,0 +1,26 @@
++from enum import Enum
++
++from wtforms import Form, RadioField, StringField, SelectMultipleField, widgets
++from wtforms.validators import DataRequired
++
++
++class MultiCheckboxField(SelectMultipleField):
++    widget = widgets.ListWidget(prefix_label=False)
++    option_widget = widgets.CheckboxInput()
++
++
++class SearchForm(Form):
++
++    release_venue = MultiCheckboxField('指定会议', choices=[
++        ('2D Materials', '2D Materials'),
++        ('Nanophotonics', 'Nanophotonics'),
++        ('&quot;chemical society reviews&quot; source:chemical source:society source:reviews', 'ACS Photonics')
++    ])
++
++    release_date = MultiCheckboxField('发布日期', choices=[
++        ('2018', 2018),
++        ('2019', 2019),
++        ('2020', 2020)
++    ])
++
++    search_bar = StringField('搜索框', validators=[DataRequired()])
