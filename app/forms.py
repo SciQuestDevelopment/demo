@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
+from wtforms.widgets.core import ListWidget,CheckboxInput
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,SelectField, SelectMultipleField
 from flask_wtf.html5 import URLField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,url
@@ -101,33 +102,36 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset Password')
 
 
+class MultiCheckboxField(SelectMultipleField):
+    widget = ListWidget(prefix_label=False)
+    option_widget = CheckboxInput()
+
+
+# class ExampleForm(FlaskForm):
+#     choices = MultiCheckboxField('Routes', coerce=int)
+#     submit = SubmitField("Set User Choices")
+
 class PubQueryForm(FlaskForm):
     pub_name = StringField('文献名称', validators=[DataRequired()])
-    checkbox1 = BooleanField('All', default=True)
-    checkbox2 = BooleanField('2D Materials')
-    checkbox3 = BooleanField('Nanophotonics')
-    checkbox4 = BooleanField('Nature Reviews Materials')
-
-
-    # venue_name = SelectMultipleField('期刊名称', choices=[('', 'All Sources'), (
-    # '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'), (
-    #                                           '&quot;advanced materials&quot; source:advanced source:materials',
-    #                                           'Advanced Materials'),
-    #                                           (
-    #                                           '&quot;progress in materials science&quot; source:progress source:in source:materials source:science',
-    #                                           'Progress in materials science'),
-    #                                           ('&quot;joule&quot; source:joule', 'Joule'),
-    #                                           ('&quot;science&quot; source:science', 'Science'), (
-    #                                           '&quot;nature reviews materials&quot; source:nature source:reviews source:materials',
-    #                                           'Nature Reviews Materials'),
-    #                                           (
-    #                                           '&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry',
-    #                                           'Nature Reviews Chemistry'), (
-    #                                           '&quot;nature chemistry&quot; source:nature source:chemistry',
-    #                                           'Nature Chemistry'),
-    #                                           (
-    #                                           '&quot;chemical society reviews&quot; source:chemical source:society source:reviews',
-    #                                           'Chemical Society Reviews')])
+    venue_name = MultiCheckboxField('期刊名称', choices=[('', 'All Sources'), (
+    '&quot;advanced science&quot; source:advanced source:science', 'Advanced Science'), (
+                                              '&quot;advanced materials&quot; source:advanced source:materials',
+                                              'Advanced Materials'),
+                                              (
+                                              '&quot;progress in materials science&quot; source:progress source:in source:materials source:science',
+                                              'Progress in materials science'),
+                                              ('&quot;joule&quot; source:joule', 'Joule'),
+                                              ('&quot;science&quot; source:science', 'Science'), (
+                                              '&quot;nature reviews materials&quot; source:nature source:reviews source:materials',
+                                              'Nature Reviews Materials'),
+                                              (
+                                              '&quot;nature reviews chemistry&quot; source:nature source:reviews source:chemistry',
+                                              'Nature Reviews Chemistry'), (
+                                              '&quot;nature chemistry&quot; source:nature source:chemistry',
+                                              'Nature Chemistry'),
+                                              (
+                                              '&quot;chemical society reviews&quot; source:chemical source:society source:reviews',
+                                              'Chemical Society Reviews')])
 
     submit = SubmitField('搜索')
 

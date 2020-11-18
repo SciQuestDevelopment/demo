@@ -286,7 +286,7 @@ def auth_query():
         print(authors)
         return render_template('author_results.html', title='文献查询结果', authors=authors, len=len(authors))
     return render_template('search_author.html', title='查作者', form=form)
-
+# example code
 @app.route("/search_venue", methods=['GET', 'POST'])
 def venue_query():
     form = VenueQueryForm()

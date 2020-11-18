@@ -2,50 +2,37 @@
 {% block content %}
     <div class="content-section">
         <form method="POST" action="">
-            {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">文献搜索</legend>
-
                 <div class="form-group">
-                    {% if form.pub_name.errors %}
-                        {{ form.pub_name(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.pub_name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.pub_name(class="form-control form-control-lg") }}
-                    {% endif %}
+                    <div>
+                        <label>文献</label><br/>
+                        <input type="checkbox" name="match" value="2D Materials"> 2D Materials
+                        <input type="checkbox" name="match" value="Nanophotonics"> Nanophotonics
+                        <input type="checkbox" name="match"
+                               value="&quot;chemical society reviews&quot; source:chemical source:society source:reviews">
+                        ACS Photonics<br/>
+                        <label>时间</label><br/>
+                        <input type="checkbox" name="time" value="2018"> 2018
+                        <input type="checkbox" name="time" value="2019"> 2019
+                        <input type="checkbox" name="time" value="2020"> 2020
+
+                    </div>
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                <input type="submit">
             </div>
         </form>
     </div>
-    </div>
-    <div class="col-md-4">
-          <div class="content-section">
-            <h3>Search Fields</h3>
-{#            <p class='text-muted'>You can put any information here you'd like.#}
-             <div class="form-check">
-                        {{ form.checkbox1(class="form-check-input") }}
-                        {{ form.checkbox1.label(class="form-check-label") }}
-                    </div>
-                <div class="form-check">
-                    {{ form.checkbox2(class="form-check-input") }}
-                    {{ form.checkbox2.label(class="form-check-label") }}
-                </div>
-                <div class="form-check">
-                    {{ form.checkbox3(class="form-check-input") }}
-                    {{ form.checkbox3.label(class="form-check-label") }}
-                </div>
-                <div class="form-check">
-                    {{ form.checkbox4(class="form-check-input") }}
-                    {{ form.checkbox4.label(class="form-check-label") }}
-                </div>
-            </p>
-          </div>
-        </div>
+    {#    <div class="col-md-4">#}
+    {#          <div class="content-section">#}
+    {#            <h3>Search Fields</h3>#}
+    {#            <p class='text-muted'>You can put any information here you'd like.#}
+    {##}
+    {#                <div class="form-check">#}
+    {#                </div>#}
+    {#            </p>#}
+    {#          </div>#}
+    {#    </div>#}
 {% endblock content %}
