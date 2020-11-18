@@ -225,19 +225,26 @@ def reset_token(token):
 
 @app.route("/search_pub", methods=['GET', 'POST'])
 def pub_query():
-    form = PubQueryForm()
-    if form.validate_on_submit():
-        search_query = scholarly.search_pubs(form.pub_name.data)
-        pubs = []
-        for i in range(20):
-            try:
-                pub = next(search_query)
-                pubs.append(pub)
-            except:
-                # print("End of the iterator")
-                break
-        return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
-    return render_template('search_pub.html', title='文献查询', form=form)
+    if request.method == 'POST':
+        print(request.form.getlist('venue'))
+        print(request.form.getlist('time'))
+        print(request.form.getlist('input'))
+
+        var = ""
+
+
+    # if form.validate_on_submit():
+    #     search_query = scholarly.search_pubs(form.pub_name.data)
+    #     pubs = []
+    #     for i in range(20):
+    #         try:
+    #             pub = next(search_query)
+    #             pubs.append(pub)
+    #         except:
+    #             # print("End of the iterator")
+    #             break
+    #     return render_template('pub_results.html', title='文献查询结果', pubs=pubs, form=form)
+    return render_template('search_pub.html', title='文献查询')
 
 # def pub_query():
 #     form = PubQueryForm()
