@@ -1,5 +1,5 @@
 from scholarly import scholarly
-search_query = scholarly.search_pubs(year_low=2018, query="computer science",)
+search_query = scholarly.search_pubs( query="computer science", year_low=2018,)
 list1 = []
 for i in range(20):
     try:

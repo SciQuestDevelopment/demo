@@ -105,8 +105,6 @@ class ResetPasswordForm(FlaskForm):
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(prefix_label=False)
     option_widget = CheckboxInput()
-
-
 # class ExampleForm(FlaskForm):
 #     choices = MultiCheckboxField('Routes', coerce=int)
 #     submit = SubmitField("Set User Choices")
