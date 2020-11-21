@@ -1,5 +1,4 @@
 from typing import List, Tuple
-from xml.sax.saxutils import escape
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
@@ -118,7 +117,7 @@ class PubCheckboxField(MultiCheckboxField):
         for pub_name in pub_names:
             lower = pub_name.lower()
             words = lower.split(' ')
-            handled = f'"{lower}" source:{" source:".join(words)}'.replace('"', '&quot;')
+            handled = f'&quot;{lower}&quot; source:{" source:".join(words)}'
             output.append((handled, pub_name))
         return output
 
@@ -141,9 +140,15 @@ class DateCheckboxField(MultiCheckboxField):
 
 class PubQueryForm(FlaskForm):
     venue_name = PubCheckboxField(u'期刊名称', choices=[
-        'Advanced Science', 'Advanced Materials',
-        'Progress in materials science', 'Joule', 'Science',
-        'Nature Reviews Materials', 'Nature Reviews Chemistry', 'Nature Chemistry', 'Chemical Society Reviews'
+        'Advanced Science',
+        'Advanced Materials',
+        'Progress in materials science',
+        'Joule',
+        'Science',
+        'Nature Reviews Materials',
+        'Nature Reviews Chemistry',
+        'Nature Chemistry',
+        'Chemical Society Reviews'
     ])
     date_range = DateCheckboxField(u'发布年份', choices=range(2010, 2020))
     pub_name = StringField(u'文献名称', validators=[DataRequired()])
@@ -164,7 +169,6 @@ class VenueQueryForm(FlaskForm):
         ('&quot;nature chemistry&quot; source:nature source:chemistry', 'Nature Chemistry'),
         ('&quot;chemical society reviews&quot; source:chemical source:society source:reviews', 'Chemical Society Reviews')
     ])
-
     submit = SubmitField('搜索')
 
 
