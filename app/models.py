@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.png');
+    image_file = db.Column(db.String(20), nullable=False, default='icon.png');
     university = db.Column(db.String(60), nullable=False)
     major = db.Column(db.String(60), nullable=False)
     interest1 = db.Column(db.String(60), nullable=False)
